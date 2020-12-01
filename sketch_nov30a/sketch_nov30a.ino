@@ -14,7 +14,7 @@ WiFiServer server(80);
 const int trigPin = 2;
 const int echoPin = 5;
 long duration;
-int distance;
+int distance,distance1,distance2;
 String s;
 
 TaskHandle_t Task2;
@@ -46,17 +46,19 @@ void Task2code( void * parameter )
             duration = pulseIn(echoPin, HIGH);
             // Calculating the distance
             distance= duration*0.034/2;
+            distance1=distance+10;
+            distance2=distance+20;
                  
-            s="Distance is:-"+(String)distance;
+            s=(String)distance+","+(String)distance1+","+(String)distance2;
             Serial.println(s);
             // Return the response
             client.println("HTTP/1.1 200 OK");
             client.println("Content-Type: text/html");
             client.println("");
-            client.println("<!DOCTYPE HTML>");
-            client.println("<html><body>");
+           // client.println("<!DOCTYPE HTML>");
+          //  client.println("<html><body>");
             client.println(s);
-            client.println("</body></html>");
+         //   client.println("</body></html>");
             client.stop();                    //close the connection
             delay(1);
             client.flush();

@@ -13,8 +13,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  FlutterTts flutterTts = FlutterTts();
+  FlutterTts tts = FlutterTts();
   String data = "";
+  List sensor;
+  int sensor1, sensor2, sensor3;
   void getdata() async {
     try {
       var url = 'http://192.168.43.116/';
@@ -24,7 +26,13 @@ class _MyAppState extends State<MyApp> {
         if (response.statusCode == 200) {
           data = response.body;
           print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + data);
-          //if (int.parse(body) < 10) tts.speak("hello");
+          sensor = data.split(",");
+          sensor1 = int.parse(sensor[0]);
+          sensor2 = int.parse(sensor[1]);
+          sensor3 = int.parse(sensor[2]);
+          print("sensor1:" + sensor1.toString());
+          print("sensor2:" + sensor2.toString());
+          print("sensor3:" + sensor3.toString());
         } else {
           data = 'Request failed with status: ${response.statusCode}.';
           print('Request failed with status: ${response.statusCode}.');
@@ -45,9 +53,12 @@ class _MyAppState extends State<MyApp> {
               child: Column(
                 children: <Widget>[
                   Text(data),
-                  RaisedButton(onPressed: () {
-                    getdata();
-                  })
+                  RaisedButton(
+                    onPressed: () {
+                      getdata();
+                    },
+                    child: Text("Press to get data"),
+                  )
                 ],
               ),
             )));
